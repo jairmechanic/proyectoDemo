@@ -1,14 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hola Mundo</title>
+    <title>Generador de Temas de Álgebra</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .topic-card {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            min-height: 200px;
+        }
+
+        .topic-title {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .topic-description {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .topic-formula {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            color: #667eea;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .topic-example {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            color: #1565c0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .placeholder {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 40px 0;
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <p>
-        Hola este un sitio web de prueba, ya cargue esta pendejada a githu
-    </p>
+    <div class="container">
+        <h1>📚 Generador de Temas de Álgebra</h1>
+
+        <div class="topic-card" id="topicCard">
+            <div class="placeholder">
+                Haz clic en el botón para generar un tema de álgebra
+            </div>
+        </div>
+
+        <button class="btn" onclick="generateTopic()">🎲 Generar Tema Aleatorio</button>
+    </div>
+
+    <script>
+        const algebraTopics = [
+            {
+                title: "Ecuaciones Lineales",
+                level: "Secundaria",
+                description: "Una ecuación lineal es una igualdad que involucra una o más variables elevadas a la primera potencia. La solución es el valor que hace verdadera la ecuación.",
+                formula: "ax + b = 0  →  x = -b/a",
+                example: "Ejemplo: 2x + 6 = 0 → x = -6/2 = -3"
+            },
+            {
+                title: "Ecuaciones Cuadráticas",
+                level: "Secundaria",
+                description: "Ecuaciones de segundo grado que pueden resolverse mediante factorización, completar el cuadrado o la fórmula general.",
+                formula: "x = (-b ± √(b² - 4ac)) / 2a",
+                example: "Ejemplo: x² - 5x + 6 = 0 → x = 2 o x = 3"
+            },
+            {
+                title: "Sistemas de Ecuaciones",
+                level: "Secundaria",
+                description: "Conjunto de dos o más ecuaciones con las mismas variables. Se resuelven por sustitución, igualación o eliminación.",
+                formula: "{ x + y = 5\n{ 2x - y = 1",
+                example: "Solución: x = 2, y = 3"
+            },
+            {
+                title: "Factorización",
+                level: "Secundaria",
+                description: "Proceso de descomponer una expresión algebraica en producto de factores más simples.",
+                formula: "a² - b² = (a + b)(a - b)",
+                example: "Ejemplo: x² - 9 = (x + 3)(x - 3)"
+            },
+            {
+                title: "Exponentes y Radicales",
+                level: "Secundaria",
+                description: "Propiedades de las potencias y raíces. Fundamental para simplificar expresiones algebraicas.",
+                formula: "aⁿ · aᵐ = aⁿ⁺ᵐ  |  ⁿ√a · ⁿ√b = ⁿ√(ab)",
+                example: "Ejemplo: 2³ · 2² = 2⁵ = 32"
+            },
+            {
+                title: "Funciones Lineales",
+                level: "Secundaria/Universidad",
+                description: "Relación entre dos variables donde el cambio es constante. Su gráfica es una línea recta.",
+                formula: "f(x) = mx + b",
+                example: "m = pendiente, b = intercepto en y"
+            },
+            {
+                title: "Funciones Cuadráticas",
+                level: "Universidad",
+                description: "Funciones polinomiales de grado 2. Su gráfica es una parábola que puede abrir hacia arriba o abajo.",
+                formula: "f(x) = ax² + bx + c",
+                example: "Vértice: x = -b/2a"
+            },
+            {
+                title: "Logaritmos",
+                level: "Universidad",
+                description: "Operación inversa de la exponenciación. Si aˣ = b, entonces log_a(b) = x.",
+                formula: "log_a(xy) = log_a(x) + log_a(y)",
+                example: "log₂(8) = 3 porque 2³ = 8"
+            },
+            {
+                title: "Matrices",
+                level: "Universidad",
+                description: "Arreglos rectangulares de números. Se utilizan para resolver sistemas de ecuaciones y transformaciones lineales.",
+                formula: "[a b]   [e f]   [ae+bg af+bh]\n[c d] × [g h] = [ce+dg cf+dh]",
+                example: "Aplicación: gráficos por computadora"
+            },
+            {
+                title: "Inecuaciones",
+                level: "Secundaria",
+                description: "Desigualdades que establecen una relación de orden entre expresiones algebraicas.",
+                formula: "ax + b > 0  →  x > -b/a (si a > 0)",
+                example: "Ejemplo: 3x - 6 > 0 → x > 2"
+            },
+            {
+                title: "Valor Absoluto",
+                level: "Secundaria/Universidad",
+                description: "Distancia de un número al cero en la recta numérica. Siempre es no negativo.",
+                formula: "|x| = { x si x ≥ 0, -x si x < 0 }",
+                example: "|−5| = 5,  |3| = 3"
+            },
+            {
+                title: "Progresiones Aritméticas",
+                level: "Secundaria",
+                description: "Sucesión de números donde la diferencia entre términos consecutivos es constante.",
+                formula: "aₙ = a₁ + (n-1)d",
+                example: "2, 5, 8, 11, 14... (d = 3)"
+            },
+            {
+                title: "Progresiones Geométricas",
+                level: "Universidad",
+                description: "Sucesión donde cada término se obtiene multiplicando el anterior por una razón constante.",
+                formula: "aₙ = a₁ · rⁿ⁻¹",
+                example: "3, 6, 12, 24, 48... (r = 2)"
+            },
+            {
+                title: "Polinomios",
+                level: "Universidad",
+                description: "Expresión algebraica formada por la suma de varios términos con diferentes potencias de la variable.",
+                formula: "P(x) = aₙxⁿ + aₙ₋₁xⁿ⁻¹ + ... + a₁x + a₀",
+                example: "P(x) = 2x³ - 5x² + 3x - 7"
+            },
+            {
+                title: "Números Complejos",
+                level: "Universidad",
+                description: "Extensión de los números reales que incluye la unidad imaginaria i, donde i² = -1.",
+                formula: "z = a + bi  |  |z| = √(a² + b²)",
+                example: "z = 3 + 4i,  |z| = 5"
+            }
+        ];
+
+        function generateTopic() {
+            const randomIndex = Math.floor(Math.random() * algebraTopics.length);
+            const topic = algebraTopics[randomIndex];
+
+            const topicCard = document.getElementById('topicCard');
+            topicCard.innerHTML = `
+                <span class="level-badge">${topic.level}</span>
+                <div class="topic-title">${topic.title}</div>
+                <div class="topic-description">${topic.description}</div>
+                <div class="topic-formula">${topic.formula}</div>
+                <div class="topic-example">${topic.example}</div>
+            `;
+        }
+    </script>
 </body>
 </html>
